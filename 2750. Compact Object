@@ -1,0 +1,24 @@
+/**
+ * @param {Object|Array} obj
+ * @return {Object|Array}
+ */
+var compactObject = function(obj) {
+if (obj === null) {
+        return obj; // Return null directly if the input is null
+    }
+    if (typeof obj !== "object") {
+        return obj; // Return the value itself if it's not an object or array
+    }
+    if (Array.isArray(obj)) {
+        // Filter falsy values in arrays and recursively compact nested values
+        return obj.filter(Boolean).map(compactObject);
+    }
+    const compacted = {}; // Initialize an empty object
+    for (const key in obj) {
+        let value = compactObject(obj[key]); // Recursively compact the value
+        if (value) { // Only keep truthy values
+            compacted[key] = value;
+        }
+    }
+    return compacted; // Return the compacted object
+};
