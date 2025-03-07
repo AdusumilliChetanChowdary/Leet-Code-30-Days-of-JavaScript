@@ -1,0 +1,55 @@
+class EventEmitter {
+    constructor() {
+        this.events = {}; // Object to store event listeners
+    }
+
+    /**
+     * Subscribes to an event with a callback.
+     * @param {string} eventName - The name of the event.
+     * @param {Function} callback - The callback function to be called when the event is emitted.
+     * @return {Object} - An object with an unsubscribe method to remove the listener.
+     */
+    subscribe(eventName, callback) {
+        if (!this.events[eventName]) {
+            this.events[eventName] = []; // Initialize array for listeners if not already present
+        }
+        this.events[eventName].push(callback); // Add the callback to the event's listener list
+        
+        return {
+            unsubscribe: () => {
+                this.events[eventName] = this.events[eventName].filter(cb => cb !== callback); // Remove the specific callback
+                if (this.events[eventName].length === 0) {
+                    delete this.events[eventName]; // Clean up if no listeners remain
+                }
+            }
+        };
+    }
+
+    /**
+     * Emits an event and calls all associated listeners.
+     * @param {string} eventName - The name of the event to emit.
+     * @param {Array} args - The arguments to pass to the listeners.
+     * @return {Array} - An array of results from the listeners.
+     */
+    emit(eventName, args = []) {
+        if (!this.events[eventName]) {
+            return []; // Return an empty array if no listeners are subscribed
+        }
+        // Call each listener and collect their results
+        return this.events[eventName].map(callback => callback(...args));
+    }
+}
+
+  
+
+/**
+ * const emitter = new EventEmitter();
+ *
+ * // Subscribe to the onClick event with onClickCallback
+ * function onClickCallback() { return 99 }
+ * const sub = emitter.subscribe('onClick', onClickCallback);
+ *
+ * emitter.emit('onClick'); // [99]
+ * sub.unsubscribe(); // undefined
+ * emitter.emit('onClick'); // []
+ */
