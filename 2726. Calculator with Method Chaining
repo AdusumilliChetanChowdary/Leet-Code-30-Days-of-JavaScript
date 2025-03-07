@@ -1,0 +1,67 @@
+class Calculator {
+    constructor(initialValue) {
+        this.result = initialValue; // Set the initial value
+    }
+
+    /**
+     * Adds a number to the result
+     * @param {number} value
+     * @return {Calculator}
+     */
+    add(value) {
+        this.result += value;
+        return this; // Return 'this' to allow method chaining
+    }
+
+    /**
+     * Subtracts a number from the result
+     * @param {number} value
+     * @return {Calculator}
+     */
+    subtract(value) {
+        this.result -= value;
+        return this; // Return 'this' to allow method chaining
+    }
+
+    /**
+     * Multiplies the result by a number
+     * @param {number} value
+     * @return {Calculator}
+     */
+    multiply(value) {
+        this.result *= value;
+        return this; // Return 'this' to allow method chaining
+    }
+
+    /**
+     * Divides the result by a number
+     * @param {number} value
+     * @return {Calculator}
+     * @throws {Error} If the value is 0
+     */
+    divide(value) {
+        if (value === 0) {
+            throw new Error("Division by zero is not allowed");
+        }
+        this.result /= value;
+        return this; // Return 'this' to allow method chaining
+    }
+
+    /**
+     * Raises the result to the power of a number
+     * @param {number} value
+     * @return {Calculator}
+     */
+    power(value) {
+        this.result = Math.pow(this.result, value);
+        return this; // Return 'this' to allow method chaining
+    }
+
+    /**
+     * Returns the current result
+     * @return {number}
+     */
+    getResult() {
+        return this.result;
+    }
+}
